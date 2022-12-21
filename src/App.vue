@@ -1,11 +1,11 @@
 <template>
-  <div id="app">
-    <div class="row container-header">
+  <div id="app" class="container-fluid">
+    <div class="row container-header mx-0">
       <div class="col-12 px-0">
         <TheHeader title="Marvelandia" />
       </div>
     </div>
-    <div class="px-3">
+    <div class="row container-main px-3">
       <router-view/>
     </div>
   </div>
@@ -20,5 +20,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+#app {
+  height: 100%;
+  padding: 0;
+  .container-main {
+    background-color: $blue;
+    margin: 0px;
+  }
+}
 </style>

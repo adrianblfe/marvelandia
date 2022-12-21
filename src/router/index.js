@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 const routes = [
   { path: '/', name: 'heroesList', component: () => import('../views/HeroesList.vue') },
-//   { path: '/heroes/:id', name: 'detailHeroe', component: () => import('../views/DetailHeroe.vue') },
+  { path: '/heroes/:id', name: 'detailHeroe', component: () => import('../views/DetailHeroe.vue') },
 ]
 
 const router = new VueRouter({

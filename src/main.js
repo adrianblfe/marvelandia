@@ -6,12 +6,15 @@ import md5 from 'md5';
 import router from './router';
 
 import { createPinia, PiniaVuePlugin } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import infiniteScroll from 'vue-infinite-scroll'
 
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -35,7 +38,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 /* Setup instance of Pinia */
 Vue.use(PiniaVuePlugin);
 const pinia = createPinia();
-// pinia.use(piniaPluginPersistedstate);
+pinia.use(piniaPluginPersistedstate);
 
 /* Setup configuration Axios */
 const timestamp = moment().unix();
@@ -48,6 +51,9 @@ const axiosClient = axios.create({
   }
 });
 Vue.use(VueAxios, axiosClient);
+
+/* Register infinite scroll */
+Vue.use(infiniteScroll)
 
 Vue.config.productionTip = false;
 
