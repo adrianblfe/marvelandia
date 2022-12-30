@@ -11,6 +11,8 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
+import vClickOutside from 'v-click-outside'
+
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -54,6 +56,9 @@ Vue.use(VueAxios, axiosClient);
 
 /* Register infinite scroll */
 Vue.use(infiniteScroll)
+
+/* Register vClickOutside */
+Vue.use(vClickOutside)
 
 Vue.config.productionTip = false;
 

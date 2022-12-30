@@ -1,32 +1,22 @@
 import { defineStore } from "pinia";
 import Vue from "vue";
 
-export const useHeroesStore = defineStore('heroes', {
+export const useEventsStore = defineStore('events', {
     state: () => ({
-        heroes: [],
+        events: [],
+        selectedEvent: {},
         offset: 0,
         limit: 0,
         total: 0,
         count: 0,
         isLoading: false,
     }),
-    getters: {
-        getHeroeById(state) {
-            return (id) => {
-                return state.heroes.find((heroe) => heroe.id === id);
-            }
-        },
-    },
     actions: {
-        async getHeroesList(params = {}) {
+        async getEventsList(params = {}) {
             this.isLoading = true;
-            await Vue.axios.get('/characters', { params: params })
+            await Vue.axios.get('/events', { params: params })
                 .then(({ data }) => {
-                    if (('limit' in params && Object.keys(params).includes('limit')) || ('offset' in params && Object.keys(params).includes('offset'))) {
-                        this.heroes.push(...data.data.results);
-                    } else {
-                        this.heroes = data.data.results;
-                    }
+                    this.events = data.data.results;
                     this.count = data.data.count;
                     this.total = data.data.total; 
                     this.limit = data.data.limit; 
@@ -37,6 +27,9 @@ export const useHeroesStore = defineStore('heroes', {
                     this.isLoading = false;
                 });
         },
+    },
+    selectEvent(event) {
+        this.selectedEvent = event;
     },
     persist: false,
 });

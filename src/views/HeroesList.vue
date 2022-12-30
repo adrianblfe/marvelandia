@@ -1,6 +1,15 @@
 <template>
-    <div id="heroes-list" class="p-4" v-infinite-scroll="loadMore">
-        <div class="col-12 d-flex justify-content-center flex-wrap gap-3">
+    <div id="heroes-list" class="col-12 p-4">
+        <div class="row">
+            <TheFilters />
+        </div>
+        
+        <div
+            class="d-flex justify-content-between flex-wrap gap-3 mt-3"
+            v-infinite-scroll="loadMore"
+            :infinite-scroll-disabled="isLoading"
+            infinite-scroll-distance="10"
+        >
             <HeroeCard :heroe="heroe" v-for="(heroe, index) in heroes" :key="index" />
         </div>
 
@@ -18,15 +27,11 @@ import { useHeroesStore } from '../stores/heroes'
 export default {
     name: 'HeroesList',
     components: {
-        HeroeCard: () => import('@/components/HeroeCard.vue')
+        HeroeCard: () => import('@/components/HeroeCard.vue'),
+        TheFilters: () => import('@/components/TheFilters.vue')
     },  
-    data() {
-        return {
-            playerStore: useHeroesStore(),
-        };
-    },
     computed: {
-        ...mapState(useHeroesStore, ['heroes', 'offset', 'count', 'isLoading']),
+        ...mapState(useHeroesStore, ['heroes', 'offset', 'limit', 'isLoading']),
     },
     async mounted() {
         await this.getHeroesList();
@@ -34,7 +39,10 @@ export default {
     methods: {
         ...mapActions(useHeroesStore, ['getHeroesList']),
         loadMore() {
-            this.getHeroesList({ offset: this.offset + this.count });
+            if (this.isLoading) {
+                return;
+            }
+            this.getHeroesList({ offset: this.offset + this.limit });
         }
     }
 }
