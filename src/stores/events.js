@@ -27,9 +27,12 @@ export const useEventsStore = defineStore('events', {
                     this.isLoading = false;
                 });
         },
-    },
-    selectEvent(event) {
-        this.selectedEvent = event;
+        clearEvents() {
+            this.events = [];
+        },
+        selectEvent(event) {
+            this.selectedEvent = event;
+        },
     },
     persist: false,
 });

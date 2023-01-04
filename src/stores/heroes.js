@@ -4,6 +4,7 @@ import Vue from "vue";
 export const useHeroesStore = defineStore('heroes', {
     state: () => ({
         heroes: [],
+        heroeName: null,
         offset: 0,
         limit: 0,
         total: 0,
@@ -37,6 +38,9 @@ export const useHeroesStore = defineStore('heroes', {
                     this.isLoading = false;
                 });
         },
+        setHeroeName(name) {
+            this.heroeName = name;
+        }
     },
     persist: false,
 });

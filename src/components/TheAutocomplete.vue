@@ -65,8 +65,8 @@ export default {
         };
     },
     computed: {
-        ...mapState(useComicsStore, ['comics', 'selectedComic']),
-        ...mapState(useEventsStore, ['events', 'selectedEvent']),
+        ...mapState(useComicsStore, ['comics', 'selectedComic', 'clearComics']),
+        ...mapState(useEventsStore, ['events', 'selectedEvent', 'clearEvents']),
         options() {
             return this[`${this.store}`];
         }
@@ -78,6 +78,12 @@ export default {
             this.$emit('select-item', item);
         },
         getItems(event) {
+            if (!event.target.value.length) {
+                this.selectItem({});
+                this[`clear${this.capitalizeStore}`]();
+                return false;
+            }
+
             if (this.timeoutId) {
                 clearTimeout(this.timeoutId);
             }

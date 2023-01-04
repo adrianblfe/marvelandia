@@ -27,6 +27,9 @@ export const useComicsStore = defineStore('comics', {
                     this.isLoading = false;
                 });
         },
+        clearComics() {
+            this.comics = [];
+        },
         selectComic(comic) {
             this.selectedComic = comic;
         }

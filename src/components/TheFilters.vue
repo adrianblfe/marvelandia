@@ -2,28 +2,29 @@
     <div class="filters col-12">
         <div class="row">
             <div class="col-3 d-flex align-items-center">
-                <input v-model="heroeName" class="form-control form-control-sm" type="text" placeholder="Nombre" aria-label="heroe-name">
+                <input :value="heroeName" class="form-control form-control-sm" type="text" placeholder="Nombre" aria-label="heroe-name" @input="(event) => setHeroeName(event.target.value)">
             </div>
         
             <div class="col-3">
-                <TheAutocomplete :value="comicSelected?.title || ''" placeholder="Comics" store="comics" :item-text="'title'" param-search="title" @select-item="(item) => comicSelected = item" />
+                <TheAutocomplete :value="selectedComic?.title || ''" placeholder="Comics" store="comics" :item-text="'title'" param-search="title" @select-item="(item) => selectComic(item)" />
             </div>
 
             <div class="col-3">
-                <TheAutocomplete :value="eventSelected?.title || ''" placeholder="Eventos" store="events" :item-text="'title'" param-search="nameStartsWith" @select-item="(item) => eventSelected = item" />
+                <TheAutocomplete :value="selectedEvent?.title || ''" placeholder="Eventos" store="events" :item-text="'title'" param-search="nameStartsWith" @select-item="(item) => selectEvent(item)" />
             </div>
 
             <div class="col-3">
-                <button type="button" class="btn btn-primary btn-sm filter-btn">Buscar</button>
+                <button type="button" class="btn btn-primary btn-sm filter-btn" @click="filterHeroes">Buscar</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
 import { useComicsStore } from '../stores/comics'
 import { useEventsStore } from '../stores/events'
+import { useHeroesStore } from '../stores/heroes'
 
 export default {
     name: 'TheFilters',
@@ -32,17 +33,27 @@ export default {
     },
     data() {
         return {
-            comicTimeoutId: null,
-            eventTimeoutId: null,
             showEventResults: false,
-            comicSelected: null,
-            eventSelected: null,
-            heroeName: null,
         };
     },
     computed: {
-        ...mapState(useComicsStore, ['comics', 'offset', 'limit', 'isLoading']),
-        ...mapState(useEventsStore, ['events', 'offset', 'limit', 'isLoading']),
+        ...mapState(useComicsStore, ['comics', 'selectedComic', 'offset', 'limit', 'isLoading']),
+        ...mapState(useEventsStore, ['events', 'selectedEvent', 'offset', 'limit', 'isLoading']),
+        ...mapState(useHeroesStore, ['heroes', 'heroeName']),
+    },
+    methods: {
+        ...mapActions(useEventsStore, ['selectEvent']),
+        ...mapActions(useComicsStore, ['selectComic']),
+        ...mapActions(useHeroesStore, ['getHeroesList', 'setHeroeName']),
+        filterHeroes() {
+            const params = {
+                nameStartsWith: this.heroeName.length ? this.heroeName : undefined,
+                comics: this.selectedComic?.id ? this.selectedComic.id : undefined,
+                events: this.selectedEvent?.id ? this.selectedEvent.id : undefined,
+            };
+
+            this.getHeroesList(params);
+        }
     },
 }
 </script>
