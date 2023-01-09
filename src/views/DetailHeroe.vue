@@ -28,7 +28,7 @@ export default {
     computed: {
         ...mapState(useHeroesStore, ['heroes']),
         heroe() {
-            return this.getHeroe(this.$route.params.id);
+            return this.getHeroe(this.$route.params.id) || {};
         }
     },
     methods: {

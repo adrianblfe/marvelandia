@@ -1,22 +1,11 @@
 <template>
-    <div class="filters col-12">
-        <div class="row">
-            <div class="col-3 d-flex align-items-center">
-                <input :value="heroeName" class="form-control form-control-sm" type="text" placeholder="Nombre" aria-label="heroe-name" @input="(event) => setHeroeName(event.target.value)">
-            </div>
-        
-            <div class="col-3">
-                <TheAutocomplete :value="selectedComic?.title || ''" placeholder="Comics" store="comics" :item-text="'title'" param-search="title" @select-item="(item) => selectComic(item)" />
-            </div>
-
-            <div class="col-3">
-                <TheAutocomplete :value="selectedEvent?.title || ''" placeholder="Eventos" store="events" :item-text="'title'" param-search="nameStartsWith" @select-item="(item) => selectEvent(item)" />
-            </div>
-
-            <div class="col-3">
-                <button type="button" class="btn btn-primary btn-sm filter-btn" @click="filterHeroes">Buscar</button>
-            </div>
+    <div class="filters col-12 d-flex flex-wrap gap-3">
+        <div>
+            <input :value="heroeName" class="form-control form-control-sm" type="text" placeholder="Nombre" aria-label="heroe-name" @input="(event) => setHeroeName(event.target.value)">
         </div>
+        <TheAutocomplete :value="selectedComic?.title || ''" placeholder="Comics" store="comics" :item-text="'title'" param-search="title" @select-item="(item) => selectComic(item)" />
+        <TheAutocomplete :value="selectedEvent?.title || ''" placeholder="Eventos" store="events" :item-text="'title'" param-search="nameStartsWith" @select-item="(item) => selectEvent(item)" />
+        <button type="button" class="btn btn-primary btn-sm filter-btn" @click="filterHeroes">Buscar</button>
     </div>
 </template>
 
