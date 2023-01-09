@@ -4,7 +4,7 @@
             <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
             Volver al listado de heroes
         </router-link>
-        <div class="d-flex justify-content-center mt-3">
+        <div v-if="Object.keys(heroe).length" class="d-flex justify-content-center mt-3">
             <DetailHeroeCard :heroe="heroe" />
         </div>
     </div>
@@ -22,7 +22,7 @@ export default {
     data() {
         return {
             heroeId: this.$route.params.id,
-            playerStore: useHeroesStore()
+            playerStore: useHeroesStore(),
         };
     },
     computed: {
