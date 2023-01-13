@@ -4,8 +4,14 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', name: 'heroesList', component: () => import('../views/HeroesList.vue') },
+  { path: '/', redirect: { name: 'heroesList' } },
+  { path: '/heroes', name: 'heroesList', component: () => import('../views/HeroesList.vue') },
   { path: '/heroes/:id', name: 'detailHeroe', component: () => import('../views/DetailHeroe.vue') },
+  {
+    path: '/:catchAll(.*)', 
+    name: 'NotFound',
+    component: () => import('../views/NotFound.vue'),
+  }
 ]
 
 const router = new VueRouter({

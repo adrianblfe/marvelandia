@@ -42,5 +42,5 @@ export const useHeroesStore = defineStore('heroes', {
             this.heroeName = name;
         }
     },
-    persist: false,
+    persist: true,
 });

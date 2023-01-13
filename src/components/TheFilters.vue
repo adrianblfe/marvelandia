@@ -1,5 +1,5 @@
 <template>
-    <div class="filters col-12 d-flex flex-wrap gap-3">
+    <div class="filters col-12 d-flex flex-wrap gap-3" @keypress.enter="filterHeroes">
         <div>
             <input :value="heroeName" class="form-control form-control-sm" type="text" placeholder="Nombre" aria-label="heroe-name" @input="(event) => setHeroeName(event.target.value)">
         </div>

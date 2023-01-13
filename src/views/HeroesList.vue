@@ -13,11 +13,11 @@
             <HeroeCard :heroe="heroe" v-for="(heroe, index) in heroes" :key="index" />
         </div>
 
-        <div v-if="!heroes.length" class="d-flex justify-content-center align-items-center no-heroes">
+        <div v-if="!isLoading && !heroes.length" class="d-flex justify-content-center align-items-center no-heroes">
             <h4>No se encontraron heroes :(</h4>
         </div>
 
-        <div v-if="isLoading && heroes.length" class="mt-5 mb-8 loading-icon text-center">
+        <div v-if="isLoading" class="mt-5 mb-8 loading-icon text-center">
             <font-awesome-icon icon="fa-solid fa-spinner" spin />
             Cargando más heroes...
         </div>
@@ -53,10 +53,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.no-heroes {
-    height: 100vh;
-}
 .loading-icon, .no-heroes {
     color: #DFF3E4;
+    height: 100vh;
 }
 </style>
