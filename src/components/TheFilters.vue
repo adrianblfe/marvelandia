@@ -33,7 +33,7 @@ export default {
     methods: {
         ...mapActions(useEventsStore, ['selectEvent']),
         ...mapActions(useComicsStore, ['selectComic']),
-        ...mapActions(useHeroesStore, ['getHeroesList', 'setHeroeName']),
+        ...mapActions(useHeroesStore, ['getHeroesList', 'setHeroeName', 'resetOffset']),
         filterHeroes() {
             const params = {
                 nameStartsWith: this.heroeName.length ? this.heroeName : undefined,
@@ -41,6 +41,7 @@ export default {
                 events: this.selectedEvent?.id ? this.selectedEvent.id : undefined,
             };
 
+            this.resetOffset();
             this.getHeroesList(params);
         }
     },

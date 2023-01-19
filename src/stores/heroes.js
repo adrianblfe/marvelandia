@@ -30,8 +30,8 @@ export const useHeroesStore = defineStore('heroes', {
                     }
                     this.count = data.data.count;
                     this.total = data.data.total; 
-                    this.limit = data.data.limit; 
-                    this.offset = data.data.offset; 
+                    this.limit = data.data.limit;
+                    this.offset = this.offset + data.data.limit;
                 })
                 .catch((error) => console.error(error))
                 .finally(() => {
@@ -40,6 +40,9 @@ export const useHeroesStore = defineStore('heroes', {
         },
         setHeroeName(name) {
             this.heroeName = name;
+        },
+        resetOffset() {
+            this.offset = 0;
         }
     },
     persist: true,

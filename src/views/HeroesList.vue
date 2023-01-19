@@ -8,7 +8,7 @@
             class="d-flex justify-content-between flex-wrap gap-3 mt-3"
             v-infinite-scroll="loadMore"
             :infinite-scroll-disabled="isLoading"
-            infinite-scroll-distance="100"
+            infinite-scroll-distance="30"
         >
             <HeroeCard :heroe="heroe" v-for="(heroe, index) in heroes" :key="index" />
         </div>
@@ -26,6 +26,8 @@
 
 <script>
 import { mapActions, mapState } from 'pinia'
+import { useComicsStore } from '../stores/comics'
+import { useEventsStore } from '../stores/events'
 import { useHeroesStore } from '../stores/heroes'
 
 export default {
@@ -35,18 +37,29 @@ export default {
         TheFilters: () => import('@/components/TheFilters.vue')
     },  
     computed: {
-        ...mapState(useHeroesStore, ['heroes', 'offset', 'limit', 'isLoading']),
+        ...mapState(useHeroesStore, ['heroes', 'heroeName', 'offset', 'limit', 'isLoading']),
+        ...mapState(useComicsStore, ['comics', 'selectedComic']),
+        ...mapState(useEventsStore, ['events', 'selectedEvent']),
     },
     async mounted() {
+        await this.resetOffset();
         await this.getHeroesList();
     },
     methods: {
-        ...mapActions(useHeroesStore, ['getHeroesList']),
+        ...mapActions(useHeroesStore, ['getHeroesList', 'resetOffset']),
         loadMore() {
             if (this.isLoading) {
                 return;
             }
-            this.getHeroesList({ offset: this.offset + this.limit });
+
+            const params = {
+                nameStartsWith: this.heroeName.length ? this.heroeName : undefined,
+                comics: this.selectedComic?.id ? this.selectedComic.id : undefined,
+                events: this.selectedEvent?.id ? this.selectedEvent.id : undefined,
+                offset: this.offset + this.limit,
+            };
+
+            this.getHeroesList(params);
         }
     }
 }
