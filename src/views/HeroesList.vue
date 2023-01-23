@@ -7,7 +7,7 @@
         <div
             class="d-flex justify-content-between flex-wrap gap-3 mt-3"
             v-infinite-scroll="loadMore"
-            :infinite-scroll-disabled="isLoading"
+            :infinite-scroll-disabled="isLoading || heroes.length === total"
             infinite-scroll-distance="30"
         >
             <HeroeCard :heroe="heroe" v-for="(heroe, index) in heroes" :key="index" />
@@ -37,7 +37,7 @@ export default {
         TheFilters: () => import('@/components/TheFilters.vue')
     },  
     computed: {
-        ...mapState(useHeroesStore, ['heroes', 'heroeName', 'offset', 'limit', 'isLoading']),
+        ...mapState(useHeroesStore, ['heroes', 'heroeName', 'offset', 'total', 'limit', 'count', 'isLoading']),
         ...mapState(useComicsStore, ['comics', 'selectedComic']),
         ...mapState(useEventsStore, ['events', 'selectedEvent']),
     },
@@ -56,7 +56,7 @@ export default {
                 nameStartsWith: this.heroeName.length ? this.heroeName : undefined,
                 comics: this.selectedComic?.id ? this.selectedComic.id : undefined,
                 events: this.selectedEvent?.id ? this.selectedEvent.id : undefined,
-                offset: this.offset + this.limit,
+                offset: this.offset,
             };
 
             this.getHeroesList(params);
